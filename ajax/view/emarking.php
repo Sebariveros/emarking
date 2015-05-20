@@ -14,6 +14,10 @@ $preferredwidth = 860;
 if(isset($_COOKIE['emarking_width']) && intval($_COOKIE['emarking_width']) > 300) {
     $preferredwidth = intval($_COOKIE['emarking_width']);
 }
+$enablechat=false;
+
+if(isset($CFG->emarking_enablechat) && $CFG->emarking_enablechat==1)
+	$enablechat=true;
 
 $showrubric = true;
 if(isset($_COOKIE['emarking_showrubric'])) {
@@ -49,7 +53,8 @@ header('Content-Type: text/html; charset=utf-8');
 
 <script type="text/javascript" language="javascript"
 	src="<?php echo $emarkingdir?>/emarkingweb.nocache.js"></script>
-</head>
+<div id="chat"></div>
+	</head>
 
 <!--                                           -->
 <!-- The body can have arbitrary html, or      -->
@@ -61,7 +66,8 @@ header('Content-Type: text/html; charset=utf-8');
 		version="<?php echo $version ?>" 
 		submissionId="<?php  echo $ids?>"
 		preferredWidth="<?php echo $preferredwidth ?>"
-		showRubric="<?php echo $showrubric ?>"		
+		showRubric="<?php echo $showrubric ?>"
+		chat="<?php echo $enablechat ?>"		
 		moodleurl="<?php echo $CFG->wwwroot ?>/mod/emarking/ajax/a.php"></div>
 </body>
 </html>

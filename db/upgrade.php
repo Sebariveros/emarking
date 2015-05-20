@@ -1141,5 +1141,42 @@ function xmldb_emarking_upgrade($oldversion) {
         // Emarking savepoint reached.
         upgrade_mod_savepoint ( true, 2015050101, 'emarking' );
     }
+    if ($oldversion < 2015052000) {
+    
+    	// Define table emarking_chat to be created.
+    	$table = new xmldb_table('emarking_chat');
+    
+    	// Adding fields to table emarking_chat.
+    	$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+    	$table->add_field('time', XMLDB_TYPE_INTEGER, '20', null, XMLDB_NOTNULL, null, null);
+    	$table->add_field('userid', XMLDB_TYPE_INTEGER, '20', null, XMLDB_NOTNULL, null, null);
+    	$table->add_field('message', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null);
+    	$table->add_field('room', XMLDB_TYPE_INTEGER, '20', null, XMLDB_NOTNULL, null, null);
+    
+    	// Adding keys to table emarking_chat.
+    	$table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+    
+    	// Conditionally launch create table for emarking_chat.
+    	if (!$dbman->table_exists($table)) {
+    		$dbman->create_table($table);
+    	}
+    
+    	// Emarking savepoint reached.
+    	upgrade_mod_savepoint(true, 2015052000, 'emarking');
+    }
+    if ($oldversion < 2015052000) {
+    
+    	// Define field username to be added to emarking_chat.
+    	$table = new xmldb_table('emarking_chat');
+    	$field = new xmldb_field('username', XMLDB_TYPE_CHAR, '200', null, XMLDB_NOTNULL, null, null, 'room');
+    
+    	// Conditionally launch add field username.
+    	if (!$dbman->field_exists($table, $field)) {
+    		$dbman->add_field($table, $field);
+    	}
+    
+    	// Emarking savepoint reached.
+    	upgrade_mod_savepoint(true, 2015052000, 'emarking');
+    }
     return true;
 }
